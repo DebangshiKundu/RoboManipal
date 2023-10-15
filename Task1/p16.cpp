@@ -79,25 +79,108 @@ void dijkstra(int source, int n)
     for (i = 0; i < n; ++i)
         cout << "Vertex: " << i << " Distance: " << dist[i] << endl;
 
-    cout<<endl;
+    cout << endl;
+}
+int findParent(int parent[], int i)
+{
+    if (parent[i] == i)
+        return i;
+    return findParent(parent, parent[i]);
+}
+void unionset(int parent[], int i, int j)
+{
+    int x = findParent(parent, i);
+    int y = findParent(parent, j);
+    parent[x] = y;
+}
+void pruskal(int n)
+{
+    int min = INT_MAX, i, j, u, v, parent[10], count = 0;
+    for (i = 0; i < n; i++)
+        parent[i] = i;
+    cout << "\nThe Minimum Spanning Tree (Pruskal's Algorith) :\n";
+    while (count < n - 1)
+    {
+        min = INT_MAX;
+        for (i = 0; i < n; i++)
+        {
+            for (j = 0; j < n; j++)
+            {
+                if (min > adjMat[i][j] and adjMat[i][j] != 0 and findParent(parent, i) != findParent(parent, j))
+                {
+                    min = adjMat[i][j];
+                    u = i;
+                    v = j;
+                }
+            }
+        }
+        unionset(parent, u, v);
+        cout << u << " - " << v << " : "
+             << "Weight: " << min << endl;
+        count++;
+    }
+    cout << endl;
 }
 
-int main()
+void prim(int n)
 {
-    int n, scr, dest, w, m;
-    cout << "Enter the number of vertex: ";
-    cin >> n;
-    cout << "Enter the number of edges: ";
-    cin >> m;
-    for (int i = 0; i < m; i++)
+    bool visited[10] = {false};
+    int parent[10];
+    int key[10];
+    int i, j, u, v, min = INT_MAX;
+    for (i = 0; i < n; i++)
+        key[i] = INT_MAX;
+    key[0] = 0;
+    parent[0] = -1;
+    for (i = 0; i < n; i++)
     {
-        cout << "Enter edge " << i + 1 << "source, dest, weight: ";
-        cin >> scr >> dest >> w;
-        add(scr, dest, w);
+        min = INT_MAX;
+        for (j = 0; j < n; j++)
+        {
+            if (!visited[j] and min >= key[j])
+            {
+                u = j;
+                min = key[j];
+            }
+        }
+        visited[u] = true;
+        for (v = 0; v < n; v++)
+        {
+            if (!visited[v] and adjMat[u][v] != 0 and key[v] > adjMat[u][v])
+            {
+                parent[v] = u;
+                key[v] = adjMat[u][v];
+            }
+        }
     }
-    adjacentMat(n);
-    int source;
-    cout << "Enter the source node: ";
-    cin >> source;
-    dijkstra(source, n);
+    cout << "\nEdges in the Minimum Spanning Tree (Prim's Algorithm):\n";
+    for (int i = 1; i < n; ++i)
+    {
+        cout << parent[i] << " - " << i << "  Weight: " << adjMat[i][parent[i]] << endl;
+    }
+    cout << endl;
+
 }
+    int main()
+    {
+        int n, scr, dest, w, m;
+        cout << "Enter the number of vertex: ";
+        cin >> n;
+        cout << "Enter the number of edges: ";
+        cin >> m;
+        for (int i = 0; i < m; i++)
+        {
+            cout << "Enter edge " << i + 1 << "source, dest, weight: ";
+            cin >> scr >> dest >> w;
+            add(scr, dest, w);
+        }
+        adjacentMat(n);
+        int source;
+        cout << "Enter the source node: ";
+        cin >> source;
+        dijkstra(source, n);
+
+        pruskal(n);
+
+        prim(n);
+    }
