@@ -18,7 +18,7 @@ class deck:
         ranks = [2,3,4,5,6,7,8,9,10,'J','Q','K','A']
         dic={rank: i for i, rank in enumerate(ranks)}
         diff=(dic[card1.rank]-dic[card2.rank])% len(ranks)
-        return diff in[0,1,len(ranks)-1]
+        return diff in[0,1,len(ranks)-1] and card1.suit==card2.suit
     
 deck=deck()
 deck.shuffle()
