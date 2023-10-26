@@ -4,9 +4,9 @@ void copy(char * s,char *cp)
 {
     while(*s!='\0')
     {
-        *cp=*s;
-        s++;
-        cp++;
+        *(cp++)=*(s++);
+        // s++;
+        // cp++;
     }
     *cp='\0';
 }

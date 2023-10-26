@@ -4,12 +4,11 @@ int fibo(int n, int arr[])
 {
     if (n == 0 or n == 1)
         return n;
-    if (arr[n] == 0)
-    {
+    if (arr[n] == 0){
         arr[n] = fibo(n - 2, arr) + fibo(n - 1, arr);
-        return arr[n];
     }
-    else return arr[n];
+    return arr[n];
+    
 }
 int main()
 {
