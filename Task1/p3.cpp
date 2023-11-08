@@ -13,20 +13,40 @@ int main()
             cin >> arr[i][j];
     }
     cout << "The resultant matrix is:\n";
-    for (i = 0; i < a; i++)
-    {
-        for (j = 0; j < b; j++)
+    // for (i = 0; i < a; i++)
+    // {
+    //     for (j = 0; j < b; j++)
+    //     {
+    //         if (arr[i][j] == 0)
+    //         {
+    //             while (m < a and n < b)
+    //             {
+    //                 arr[i][n++] = 0;
+    //                 arr[m++][j] = 0;
+    //             }
+    //         }
+    //     }
+    // }
+    // int m=matrix.size();
+    //     int n=matrix[0].size(),i=0,j=0,a=0,b=0;
+        vector<vector<bool> > mat(a, vector<bool>(b, false));
+        for(i=0;i<a;i++)
         {
-            if (arr[i][j] == 0)
+            for(j=0;j<b;j++)
             {
-                while (m < a and n < b)
+                if(arr[i][j]==0 and mat[i][j]==false)
                 {
-                    arr[i][n++] = 0;
-                    arr[m++][j] = 0;
+                    m=0,n=0;
+                    while(m<a and n<b)
+                    {
+                        arr[i][n]=0;
+                        mat[i][n++]=true;
+                        arr[m][j]=0;
+                        mat[m++][j]=true;
+                    }
                 }
             }
         }
-    }
     for (i = 0; i < a; i++)
     {
         for (j = 0; j < b; j++)
